@@ -149,6 +149,9 @@ set(DARKNET_CUDA_FILES
     ${DARKNET_PATH}/src/blas_kernels.cu           ${DARKNET_PATH}/src/dropout_layer_kernels.cu
     ${DARKNET_PATH}/src/col2im_kernels.cu         ${DARKNET_PATH}/src/im2col_kernels.cu
     ${DARKNET_PATH}/src/convolutional_kernels.cu  ${DARKNET_PATH}/src/maxpool_layer_kernels.cu
+
+    ${DARKNET_PATH}/src/network_kernels.cu
+
 )
 
 if (CUDA_FOUND)
