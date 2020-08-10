@@ -37,6 +37,8 @@
 #include <darknet_ros_msgs/BoundingBoxes.h>
 #include <darknet_ros_msgs/CheckForObjectsAction.h>
 #include <darknet_ros_msgs/ObjectCount.h>
+#include "../../../darknet/src/blas.h"
+
 
 // Darknet.
 #ifdef GPU
