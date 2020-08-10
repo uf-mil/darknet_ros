@@ -117,11 +117,11 @@ set(DARKNET_CORE_FILES
     ${DARKNET_PATH}/src/upsample_layer.c          # ${DARKNET_PATH}/src/logistic_layer.c
     # ${DARKNET_PATH}/src/l2norm_layer.c          ${DARKNET_PATH}/src/yolo_layer.c
 
-    ${DARKNET_PATH}/src/art.c                     ${DARKNET_PATH}/src/lsd.c
-    ${DARKNET_PATH}/src/attention.c               ${DARKNET_PATH}/src/nightmare.c
-    ${DARKNET_PATH}/src/captcha.c                 ${DARKNET_PATH}/src/regressor.c
+    ${DARKNET_PATH}/src/art.c                     # ${DARKNET_PATH}/src/lsd.c
+    # ${DARKNET_PATH}/src/attention.c               ${DARKNET_PATH}/src/nightmare.c
+    ${DARKNET_PATH}/src/captcha.c                 # ${DARKNET_PATH}/src/regressor.c
     ${DARKNET_PATH}/src/cifar.c                   ${DARKNET_PATH}/src/rnn.c
-    ${DARKNET_PATH}/src/classifier.c              ${DARKNET_PATH}/src/segmenter.c
+    ${DARKNET_PATH}/src/classifier.c              # ${DARKNET_PATH}/src/segmenter.c
     ${DARKNET_PATH}/src/coco.c                    ${DARKNET_PATH}/src/super.c
     ${DARKNET_PATH}/src/darknet.c                 ${DARKNET_PATH}/src/tag.c
     ${DARKNET_PATH}/src/detector.c                ${DARKNET_PATH}/src/yolo.c
