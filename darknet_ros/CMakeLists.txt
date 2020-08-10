@@ -126,6 +126,21 @@ set(DARKNET_CORE_FILES
     ${DARKNET_PATH}/src/darknet.c                 ${DARKNET_PATH}/src/tag.c
     ${DARKNET_PATH}/src/detector.c                ${DARKNET_PATH}/src/yolo.c
     ${DARKNET_PATH}/src/go.c
+
+    ${DARKNET_PATH}/src/image_opencv.cpp
+    ${DARKNET_PATH}/src/conv_lstm_layer.c
+    ${DARKNET_PATH}/src/sam_layer.c
+    ${DARKNET_PATH}/src/gaussian_yolo_layer.c
+    ${DARKNET_PATH}/src/http_stream.cpp
+    ${DARKNET_PATH}/src/scale_channels_layer.c
+    ${DARKNET_PATH}/src/nightmare.c
+    ${DARKNET_PATH}/src/voxel.c
+    ${DARKNET_PATH}/src/compare.c
+    ${DARKNET_PATH}/src/reorg_old_layer.c
+    ${DARKNET_PATH}/src/writing.c
+    ${DARKNET_PATH}/src/yolo_layer.c
+    ${DARKNET_PATH}/src/dice.c
+    ${DARKNET_PATH}/src/rnn_vid.c
 )
 
 set(DARKNET_CUDA_FILES
