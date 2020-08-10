@@ -297,7 +297,7 @@ void* YoloObjectDetector::detectInThread() {
 
   layer l = net_->layers[net_->n - 1];
   float* X = buffLetter_[(buffIndex_ + 2) % 3].data;
-  float* prediction = network_predict(net_, X);
+  float* prediction = network_predict(*net_, X);
 
   rememberNetwork(net_);
   detection* dets = 0;
