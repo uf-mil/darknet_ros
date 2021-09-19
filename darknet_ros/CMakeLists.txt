@@ -23,7 +23,7 @@ if (CUDA_FOUND)
     CUDA_NVCC_FLAGS
     ${CUDA_NVCC_FLAGS};
     -O3
-    -gencode arch=compute_30,code=sm_30
+    # -gencode arch=compute_30,code=sm_30
     -gencode arch=compute_35,code=sm_35
     -gencode arch=compute_50,code=[sm_50,compute_50]
     -gencode arch=compute_52,code=[sm_52,compute_52]
@@ -116,6 +116,7 @@ set(DARKNET_CORE_FILES
     ${DARKNET_PATH}/src/gru_layer.c               ${DARKNET_PATH}/src/utils.c
     ${DARKNET_PATH}/src/upsample_layer.c          # ${DARKNET_PATH}/src/logistic_layer.c
     # ${DARKNET_PATH}/src/l2norm_layer.c          ${DARKNET_PATH}/src/yolo_layer.c
+    ${DARKNET_PATH}/src/representation_layer.c
 
     ${DARKNET_PATH}/src/art.c                     # ${DARKNET_PATH}/src/lsd.c
     # ${DARKNET_PATH}/src/attention.c               ${DARKNET_PATH}/src/nightmare.c
