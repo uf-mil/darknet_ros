@@ -34,12 +34,6 @@ using CheckForObjectsActionClientPtr = std::shared_ptr<CheckForObjectsActionClie
 #include <cmath>
 #include <string>
 
-#ifdef DARKNET_FILE_PATH
-std::string darknetFilePath_ = DARKNET_FILE_PATH;
-#else
-#error Path of darknet repository is not defined in CMakeLists.txt.
-#endif
-
 darknet_ros_msgs::BoundingBoxes boundingBoxesResults_;
 
 /*!
@@ -93,120 +87,34 @@ bool sendImageToYolo(ros::NodeHandle nh, const std::string& pathToTestImage) {
   return true;
 }
 
-TEST(ObjectDetection, DISABLED_DetectDog) {
-  srand(static_cast<unsigned int>(time(nullptr)));
-  ros::NodeHandle nodeHandle("~");
-
-  // Path to test image.
-  std::string pathToTestImage = darknetFilePath_;
-  pathToTestImage += "/data/";
-  pathToTestImage += "dog";
-  pathToTestImage += ".jpg";
-
-  // Send dog image to yolo.
-  ASSERT_TRUE(sendImageToYolo(nodeHandle, pathToTestImage));
-  ASSERT_TRUE(sendImageToYolo(nodeHandle, pathToTestImage));
-
-  // Evaluate if yolo was able to detect the three objects: dog, bicycle and car.
-  bool detectedDog = false;
-  double centerErrorDog;
-  bool detectedBicycle = false;
-  double centerErrorBicycle;
-  bool detectedCar = false;
-  double centerErrorCar;
-
-  for (auto& boundingBox : boundingBoxesResults_.bounding_boxes) {
-    double xPosCenter = boundingBox.xmin + (boundingBox.xmax - boundingBox.xmin) * 0.5;
-    double yPosCenter = boundingBox.ymin + (boundingBox.ymax - boundingBox.ymin) * 0.5;
-
-    if (boundingBox.Class == "dog") {
-      detectedDog = true;
-      // std::cout << "centerErrorDog  " << xPosCenter << ", " <<  yPosCenter << std::endl;
-      centerErrorDog = std::sqrt(std::pow(xPosCenter - 222.5, 2) + std::pow(yPosCenter - 361.5, 2));
-    }
-    if (boundingBox.Class == "bicycle") {
-      detectedBicycle = true;
-      // std::cout << "centerErrorBicycle "  << xPosCenter << ", " <<  yPosCenter << std::endl;
-      centerErrorBicycle = std::sqrt(std::pow(xPosCenter - 338.0, 2) + std::pow(yPosCenter - 289.0, 2));
-    }
-    if (boundingBox.Class == "truck") {
-      detectedCar = true;
-      // std::cout << "centerErrorCar  " << xPosCenter << ", " <<  yPosCenter << std::endl;
-      centerErrorCar = std::sqrt(std::pow(xPosCenter - 561.0, 2) + std::pow(yPosCenter - 126.5, 2));
-    }
-  }
-
-  ASSERT_TRUE(detectedDog);
-  EXPECT_LT(centerErrorDog, 40.0);
-  ASSERT_TRUE(detectedBicycle);
-  EXPECT_LT(centerErrorBicycle, 40.0);
-  ASSERT_TRUE(detectedCar);
-  EXPECT_LT(centerErrorCar, 40.0);
-}
-
-TEST(ObjectDetection, DetectANYmal) {
+TEST(ObjectDetection, DetectRedBuoy) {
   srand(static_cast<unsigned int>(time(nullptr)));
   ros::NodeHandle nodeHandle("~");
 
   // Path to test image.
   std::string pathToTestImage = ros::package::getPath("darknet_ros");
-  pathToTestImage += "/doc/";
-  pathToTestImage += "quadruped_anymal_and_person";
-  pathToTestImage += ".JPG";
+  pathToTestImage += "/test_images/";
+  pathToTestImage += "red_buoy.png";
 
   // Send dog image to yolo.
   ASSERT_TRUE(sendImageToYolo(nodeHandle, pathToTestImage));
   ASSERT_TRUE(sendImageToYolo(nodeHandle, pathToTestImage));
 
   // Evaluate if yolo was able to detect the three objects: dog, bicycle and car.
-  bool detectedPerson = false;
-  double centerErrorPersonX;
-  double centerErrorPersonY;
+  bool detectedBuoy = false;
+  double centerErrorBuoy;
 
   for (auto& boundingBox : boundingBoxesResults_.bounding_boxes) {
     double xPosCenter = boundingBox.xmin + (boundingBox.xmax - boundingBox.xmin) * 0.5;
     double yPosCenter = boundingBox.ymin + (boundingBox.ymax - boundingBox.ymin) * 0.5;
 
-    if (boundingBox.Class == "person") {
-      detectedPerson = true;
-      centerErrorPersonX = std::sqrt(std::pow(xPosCenter - 1650.0, 2));
-      centerErrorPersonY = std::sqrt(std::pow(xPosCenter - 1675.0, 2));
+    if (boundingBox.Class == "mb_marker_buoy_red") {
+      detectedBuoy = true;
+      // std::cout << "centerErrorBuoy  " << xPosCenter << ", " <<  yPosCenter << std::endl;
+      centerErrorBuoy = std::sqrt(std::pow(xPosCenter - 640, 2) + std::pow(yPosCenter - 310, 2));
     }
   }
 
-  ASSERT_TRUE(detectedPerson);
-  EXPECT_LT(centerErrorPersonX, 30);
-  EXPECT_LT(centerErrorPersonY, 30);
-}
-
-TEST(ObjectDetection, DISABLED_DetectPerson) {
-  srand(static_cast<unsigned int>(time(nullptr)));
-  ros::NodeHandle nodeHandle("~");
-
-  // Path to test image.
-  std::string pathToTestImage = darknetFilePath_;
-  pathToTestImage += "/data/";
-  pathToTestImage += "person";
-  pathToTestImage += ".jpg";
-
-  ASSERT_TRUE(sendImageToYolo(nodeHandle, pathToTestImage));
-  ASSERT_TRUE(sendImageToYolo(nodeHandle, pathToTestImage));
-
-  // Evaluate if yolo was able to detect the person.
-  bool detectedPerson = false;
-  double centerErrorPerson;
-
-  for (auto& boundingBox : boundingBoxesResults_.bounding_boxes) {
-    double xPosCenter = boundingBox.xmin + (boundingBox.xmax - boundingBox.xmin) * 0.5;
-    double yPosCenter = boundingBox.ymin + (boundingBox.ymax - boundingBox.ymin) * 0.5;
-
-    if (boundingBox.Class == "person") {
-      detectedPerson = true;
-      // std::cout << "centerErrorPerson  " << xPosCenter << ", " <<  yPosCenter << std::endl;
-      centerErrorPerson = std::sqrt(std::pow(xPosCenter - 228.0, 2) + std::pow(yPosCenter - 238.0, 2));
-    }
-  }
-
-  ASSERT_TRUE(detectedPerson);
-  EXPECT_LT(centerErrorPerson, 40.0);
+  ASSERT_TRUE(detectedBuoy);
+  EXPECT_LT(centerErrorBuoy, 40.0);
 }
