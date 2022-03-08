@@ -39,7 +39,6 @@
 #include <darknet_ros_msgs/ObjectCount.h>
 #include "../../../darknet/src/blas.h"
 
-
 // Darknet.
 #ifdef GPU
 #include "cublas_v2.h"
@@ -63,21 +62,24 @@ extern "C" void ipl_into_image(IplImage* src, image im);
 extern "C" image ipl_to_image(IplImage* src);
 // extern "C" void show_image_cv(image p, const char* name, IplImage* disp);
 
-namespace darknet_ros {
-
+namespace darknet_ros
+{
 //! Bounding box of the detected object.
-typedef struct {
+typedef struct
+{
   float x, y, w, h, prob;
   int num, Class;
 } RosBox_;
 
-typedef struct {
+typedef struct
+{
   IplImage* image;
   std_msgs::Header header;
 } IplImageWithHeader_;
 
-class YoloObjectDetector {
- public:
+class YoloObjectDetector
+{
+public:
   /*!
    * Constructor.
    */
@@ -88,7 +90,7 @@ class YoloObjectDetector {
    */
   ~YoloObjectDetector();
 
- private:
+private:
   /*!
    * Reads and verifies the ROS parameters.
    * @return true if successful.
@@ -231,8 +233,8 @@ class YoloObjectDetector {
 
   void* detectLoop(void* ptr);
 
-  void setupNetwork(char* cfgfile, char* weightfile, char* datafile, float thresh, char** names, int classes, int delay, char* prefix,
-                    int avg_frames, float hier, int w, int h, int frames, int fullscreen);
+  void setupNetwork(char* cfgfile, char* weightfile, char* datafile, float thresh, char** names, int classes, int delay,
+                    char* prefix, int avg_frames, float hier, int w, int h, int frames, int fullscreen);
 
   void yolo();
 
