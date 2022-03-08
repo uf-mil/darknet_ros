@@ -40,7 +40,8 @@ Important Note:
         - ros.yaml
         - yolov4-tiny.cfg
         - yolov4-tiny.yaml
-    These are referenced in vrx_classifier.launch, and override the args in darknet_ros.
+    These are referenced in vrx_classifier.launch, and override the args in darknet_ros!!!!
+    So you don't need to change darknet_ros unless you want it to be a permanent default value.
 
 Important Note 2:
     The file yolov4-tiny.weights is in the gitignore due to its size.
