@@ -41,13 +41,16 @@ darknet_ros_msgs::BoundingBoxes boundingBoxesResults_;
  * @param[in] state
  * @param[in] result
  */
-void checkForObjectsResultCB(const actionlib::SimpleClientGoalState& state, const darknet_ros_msgs::CheckForObjectsResultConstPtr& result) {
+void checkForObjectsResultCB(const actionlib::SimpleClientGoalState& state,
+                             const darknet_ros_msgs::CheckForObjectsResultConstPtr& result)
+{
   std::cout << "[ObjectDetectionTest] Received bounding boxes." << std::endl;
 
   boundingBoxesResults_ = result->bounding_boxes;
 }
 
-bool sendImageToYolo(ros::NodeHandle nh, const std::string& pathToTestImage) {
+bool sendImageToYolo(ros::NodeHandle nh, const std::string& pathToTestImage)
+{
   //! Check for objects action client.
   CheckForObjectsActionClientPtr checkForObjectsActionClient;
 
@@ -57,8 +60,10 @@ bool sendImageToYolo(ros::NodeHandle nh, const std::string& pathToTestImage) {
   checkForObjectsActionClient.reset(new CheckForObjectsActionClient(nh, checkForObjectsActionName, true));
 
   // Wait till action server launches.
-  if (!checkForObjectsActionClient->waitForServer(ros::Duration(20.0))) {
-    std::cout << "[ObjectDetectionTest] sendImageToYolo(): checkForObjects action server has not been advertised." << std::endl;
+  if (!checkForObjectsActionClient->waitForServer(ros::Duration(20.0)))
+  {
+    std::cout << "[ObjectDetectionTest] sendImageToYolo(): checkForObjects action server has not been advertised."
+              << std::endl;
     return false;
   }
 
@@ -78,16 +83,21 @@ bool sendImageToYolo(ros::NodeHandle nh, const std::string& pathToTestImage) {
                                         CheckForObjectsActionClient::SimpleActiveCallback(),
                                         CheckForObjectsActionClient::SimpleFeedbackCallback());
 
-  if (!checkForObjectsActionClient->waitForResult(ros::Duration(100.0))) {
-    std::cout << "[ObjectDetectionTest] sendImageToYolo(): checkForObjects action server took to long to send back result." << std::endl;
+  if (!checkForObjectsActionClient->waitForResult(ros::Duration(100.0)))
+  {
+    std::cout << "[ObjectDetectionTest] sendImageToYolo(): checkForObjects action server took to long to send back "
+                 "result."
+              << std::endl;
     return false;
   }
   ros::Time endYolo = ros::Time::now();
-  std::cout << "[ObjectDetectionTest] Object detection for one image took " << endYolo - beginYolo << " seconds." << std::endl;
+  std::cout << "[ObjectDetectionTest] Object detection for one image took " << endYolo - beginYolo << " seconds."
+            << std::endl;
   return true;
 }
 
-TEST(ObjectDetection, DetectRedBuoy) {
+TEST(ObjectDetection, DetectRedBuoy)
+{
   srand(static_cast<unsigned int>(time(nullptr)));
   ros::NodeHandle nodeHandle("~");
 
@@ -104,11 +114,13 @@ TEST(ObjectDetection, DetectRedBuoy) {
   bool detectedBuoy = false;
   double centerErrorBuoy;
 
-  for (auto& boundingBox : boundingBoxesResults_.bounding_boxes) {
+  for (auto& boundingBox : boundingBoxesResults_.bounding_boxes)
+  {
     double xPosCenter = boundingBox.xmin + (boundingBox.xmax - boundingBox.xmin) * 0.5;
     double yPosCenter = boundingBox.ymin + (boundingBox.ymax - boundingBox.ymin) * 0.5;
 
-    if (boundingBox.Class == "mb_marker_buoy_red") {
+    if (boundingBox.Class == "mb_marker_buoy_red")
+    {
       detectedBuoy = true;
       // std::cout << "centerErrorBuoy  " << xPosCenter << ", " <<  yPosCenter << std::endl;
       centerErrorBuoy = std::sqrt(std::pow(xPosCenter - 640, 2) + std::pow(yPosCenter - 310, 2));
